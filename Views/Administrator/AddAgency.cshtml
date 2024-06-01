@@ -1,0 +1,97 @@
+﻿@model MarketingHub.Models.MarketingAgency
+
+@{
+    ViewData["Title"] = "Create Marketing Agency";
+}
+<a asp-controller="Administrator" asp-action="Index" class="btn btn-primary">Back to Agencies</a>
+<br />
+<br />
+<h1>Add Location</h1>
+<form asp-action="ProcessAddAgency" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <!-- Location Fields -->
+    <div class="form-group">
+        <label asp-for="@Model.Location.City">City:</label>
+        <input asp-for="@Model.Location.City" class="form-control" />
+        <span asp-validation-for="@Model.Location.City" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="@Model.Location.ImageUrl">Image URL:</label>
+        <input asp-for="@Model.Location.ImageUrl" class="form-control" />
+        <span asp-validation-for="@Model.Location.ImageUrl" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="@Model.Location.PostalCode">Postal Code:</label>
+        <input asp-for="@Model.Location.PostalCode" class="form-control" />
+        <span asp-validation-for="@Model.Location.PostalCode" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="@Model.Location.BuildingName">Building Name:</label>
+        <input asp-for="@Model.Location.BuildingName" class="form-control" />
+        <span asp-validation-for="@Model.Location.BuildingName" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="@Model.Location.Region">Region:</label>
+        <input asp-for="@Model.Location.Region" class="form-control" />
+        <span asp-validation-for="@Model.Location.Region" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="@Model.Location.UrlRoute">URL Route:</label>
+        <input asp-for="@Model.Location.UrlRoute" class="form-control" />
+        <span asp-validation-for="@Model.Location.UrlRoute" class="text-danger"></span>
+    </div>
+
+
+    <h1 class="mt-5">Create Marketing Agency</h1>
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-group">
+        <label asp-for="Username">Username:</label>
+        <input asp-for="Username" class="form-control" />
+        <span asp-validation-for="Username" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Salary">Salary:</label>
+        <input asp-for="Salary" class="form-control" />
+        <span asp-validation-for="Salary" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Email">Email:</label>
+        <input asp-for="Email" class="form-control" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="PhoneNumber">Phone Number:</label>
+        <input asp-for="PhoneNumber" class="form-control" />
+        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Description">Description:</label>
+        <input asp-for="Description" class="form-control" />
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Rating">Rating:</label>
+        <input asp-for="Rating" class="form-control" min="1" max="5" />
+        <span asp-validation-for="Rating" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="ImageUrl">Image URL:</label>
+        <input asp-for="ImageUrl" class="form-control" />
+        <span asp-validation-for="ImageUrl" class="text-danger"></span>
+    </div>
+
+
+    <button type="submit" class="btn btn-primary mt-4">Save Agency</button>
+</form>

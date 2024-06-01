@@ -1,0 +1,61 @@
+﻿@inject SignInManager<IdentityUser> SignInManager
+@{
+    var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
+}
+<style>
+
+	.btn {
+		margin-top: 10px;
+		margin-right: 5px; /* Added margin between buttons */
+		font-size: 16px;
+		padding: 10px 20px;
+		background-color: #fd5f00;
+		color: #fff;
+		border: 2px solid #fd5f00;
+		border-radius: 25px;
+		transition: all 0.3s ease;
+	}
+
+
+		.btn:hover {
+			background-color: #fff;
+			color: #fd5f00;
+			border: 2px solid #fd5f00;
+		}
+
+</style>
+<ul class="nav nav-pills flex-column">
+    <li class="nav-item">
+        <a class="nav-link @ManageNavPages.IndexNavClass(ViewContext)" id="profile" asp-page="./Index" style="color: #fd5f00;">
+            <i class="bi bi-person"></i> Profile
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link @ManageNavPages.EmailNavClass(ViewContext)" id="email" asp-page="./Email" style="color: #fd5f00;">
+            <i class="bi bi-envelope"></i> Email
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link @ManageNavPages.ChangePasswordNavClass(ViewContext)" id="change-password" asp-page="./ChangePassword" style="color: #fd5f00;">
+            <i class="bi bi-shield-lock"></i> Password
+        </a>
+    </li>
+    @if (hasExternalLogins)
+    {
+        <li class="nav-item">
+            <a id="external-login" class="nav-link @ManageNavPages.ExternalLoginsNavClass(ViewContext)" asp-page="./ExternalLogins" style="color: #fd5f00;">
+                <i class="bi bi-box-arrow-up-right"></i> External logins
+            </a>
+        </li>
+    }
+    <li class="nav-item">
+        <a class="nav-link @ManageNavPages.TwoFactorAuthenticationNavClass(ViewContext)" id="two-factor" asp-page="./TwoFactorAuthentication" style="color: #fd5f00;">
+            <i class="bi bi-shield-lock"></i> Two-factor authentication
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link @ManageNavPages.PersonalDataNavClass(ViewContext)" id="personal-data" asp-page="./PersonalData" style="color: #fd5f00;">
+            <i class="bi bi-person-circle"></i> Personal data
+        </a>
+    </li>
+</ul>

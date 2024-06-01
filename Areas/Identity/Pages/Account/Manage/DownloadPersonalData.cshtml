@@ -1,0 +1,39 @@
+﻿@page
+@model DownloadPersonalDataModel
+@{
+    ViewData["Title"] = "Download Your Data";
+    ViewData["ActivePage"] = ManageNavPages.PersonalData;
+}
+<style>
+
+	body {
+		background-image: url('https://convertingcolors.com/radial-008374.svg'); /* Set the background image of the page */
+		background-size: cover; /* Cover the entire background */
+		background-repeat: no-repeat; /* Do not repeat the background image */
+	}
+
+	.btn {
+		margin-top: 10px;
+		margin-right: 5px; /* Added margin between buttons */
+		font-size: 16px;
+		padding: 10px 20px;
+		background-color: #fd5f00;
+		color: #fff;
+		border: 2px solid #fd5f00;
+		border-radius: 25px;
+		transition: all 0.3s ease;
+	}
+
+
+		.btn:hover {
+			background-color: #fff;
+			color: #fd5f00;
+			border: 2px solid #fd5f00;
+		}
+
+</style>
+<h3 style="color: var(--color-primary);">@ViewData["Title"]</h3>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

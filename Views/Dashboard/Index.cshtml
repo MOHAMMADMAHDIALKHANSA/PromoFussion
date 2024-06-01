@@ -1,0 +1,70 @@
+﻿<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Customer Count</h5>
+                    <p class="card-text">@Model.CustomerCount</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Agency Count</h5>
+                    <p class="card-text">@Model.AgencyCount</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Admin Count</h5>
+                    <p class="card-text">@Model.AdminCount</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Display customer list if needed -->
+    <h3>Customer List</h3>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var customer in Model.CustomerList)
+            {
+                <tr>
+                    <td>@customer.CustomerId</td>
+                    <td>@customer.FirstName</td>
+                    <td>@customer.LastName</td>
+                    <td>@customer.Email</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+     <canvas id="pieChart" width="100" height="100"></canvas>
+
+    <script>
+        var ctx = document.getElementById('pieChart').getContext('2d');
+        var pieChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: ['Customers', 'Agencies', 'Admins'],
+                datasets: [{
+                    data: [@Model.CustomerCount, @Model.AgencyCount, @Model.AdminCount],
+                    backgroundColor: ['blue', 'green', 'red']
+                }]
+            }
+        });
+    </script>
+</div>
+
+

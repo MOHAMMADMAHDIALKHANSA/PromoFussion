@@ -1,0 +1,61 @@
+﻿@page
+@model ExternalLoginModel
+@{
+    ViewData["Title"] = "Register";
+}
+
+<style>
+
+	body {
+		background-image: url('https://convertingcolors.com/radial-008374.svg'); /* Set the background image of the page */
+		background-size: cover; /* Cover the entire background */
+		background-repeat: no-repeat; /* Do not repeat the background image */
+	}
+
+	.btn {
+		margin-top: 10px;
+		margin-right: 5px; /* Added margin between buttons */
+		font-size: 16px;
+		padding: 10px 20px;
+		background-color: #fd5f00;
+		color: #fff;
+		border: 2px solid #fd5f00;
+		border-radius: 25px;
+		transition: all 0.3s ease;
+	}
+
+
+		.btn:hover {
+			background-color: #fff;
+			color: #fd5f00;
+			border: 2px solid #fd5f00;
+		}
+
+</style>
+<h1 style="color: var(--color-primary);">@ViewData["Title"]</h1>
+<h2 id="external-login-title" style="color: var(--color-primary);">Associate your @Model.ProviderDisplayName account.</h2>
+<hr />
+
+<p id="external-login-description" class="text-info" style="color: var(--color-primary);">
+    You've successfully authenticated with <strong>@Model.ProviderDisplayName</strong>.
+    Please enter an email address for this site below and click the Register button to finish
+    logging in.
+</p>
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-page-handler="Confirmation" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+            <div class="form-floating mb-3">
+                <input asp-for="Input.Email" class="form-control" autocomplete="email" placeholder="Please enter your email."/>
+                <label asp-for="Input.Email" class="form-label"></label>
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </div>
+            <button type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

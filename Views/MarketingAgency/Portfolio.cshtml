@@ -1,0 +1,93 @@
+﻿@model IEnumerable<MarketingHub.Models.Post>
+
+@{
+    ViewData["Title"] = "View Posts";
+}
+<style>
+
+
+    .btn {
+        margin-top: 10px;
+        margin-right: 5px;
+        font-size: 16px;
+        padding: 10px 20px;
+        background-color: #008080;
+        color: #fff;
+        border: 2px solid #008080;
+        border-radius: 25px;
+        transition: all 0.3s ease;
+    }
+
+
+        .btn:hover {
+            background-color: #fff;
+            color: #008080;
+        }
+</style>
+<link href="~/assets/css/main.css" rel="stylesheet" />
+<section id="portfolio" class="portfolio sections-bg">
+    <div class="container" data-aos="fade-up">
+
+        <div class="section-header">
+            <h2 style="color: var(--color-primary);">Port<span style="color: #fd5f00;">Fol</span>io</h2>
+        </div>
+
+        <div class="portfolio-isotope" data-portfolio-filter="*" data-portfolio-layout="masonry" data-portfolio-sort="original-order" data-aos="fade-up" data-aos-delay="100">
+
+
+
+            <div class="row gy-4 portfolio-container">
+
+                <div class="col-xl-4 col-md-6 portfolio-item filter-app">
+                    <div class="portfolio-wrap">
+                        <a href="~/assets/img/portfolio/app-1.jpg" data-gallery="portfolio-gallery-app" class="glightbox"><img src="~/assets/img/portfolio/app-1.jpg" class="img-fluid" alt=""></a>
+                        <div class="portfolio-info">
+                            <h4><a href="portfolio-details.html" title="More Details">App 1</a></h4>
+                            <p>Lorem ipsum, dolor sit amet consectetur</p>
+                        </div>
+                    </div>
+                </div><!-- End Portfolio Item -->
+
+                <div class="col-xl-4 col-md-6 portfolio-item filter-product">
+                    <div class="portfolio-wrap">
+                        <a href="~/assets/img/portfolio/product-1.jpg" data-gallery="portfolio-gallery-app" class="glightbox"><img src="~/assets/img/portfolio/product-1.jpg" class="img-fluid" alt=""></a>
+                        <div class="portfolio-info">
+                            <h4><a href="portfolio-details.html" title="More Details">Product 1</a></h4>
+                            <p>Lorem ipsum, dolor sit amet consectetur</p>
+                        </div>
+                    </div>
+                </div><!-- End Portfolio Item -->
+                @foreach (var post in Model)
+                {
+                    <div class="col-xl-4 col-md-6 portfolio-item filter-branding">
+                        <div class="portfolio-wrap">
+                            @if (post.Content.EndsWith(".jpg") || post.Content.EndsWith(".png") || post.Content.EndsWith(".jpeg"))
+                            {
+                                <a href="@post.Content" data-gallery="portfolio-gallery-app" class="glightbox"><img src="@post.Content" class="img-fluid" alt=""></a>
+                            }
+                            else if (post.Content.EndsWith(".mp4"))
+                            {
+                                <video controls class="card-img-top">
+                                    <source src="@post.Content" type="video/mp4">
+                                    Your browser does not support the video tag.
+                                </video>
+                            }
+                            else
+                            {
+                                <p class="card-text">@post.Content</p>
+                            }
+                            <div class="portfolio-info">
+                                <h4><a href="portfolio-details.html" title="More Details">@post.Caption</a></h4>
+                                <p>@post.CreatedAt.ToString("MMMM dd, yyyy")</p>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</section>
+<br />
+<br />
+<a asp-controller="MarketingAgency" asp-action="Index" class="btn btn-primary">Back to Agencies</a>
+

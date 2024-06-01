@@ -1,0 +1,173 @@
+﻿@model IEnumerable<MarketingHub.Models.MarketingAgency>
+
+@{
+    ViewData["Title"] = "Marketing Agencies";
+}
+<style>
+
+    body {
+        background-image: url('https://convertingcolors.com/radial-008374.svg'); /* Set the background image of the page */
+        background-size: cover; /* Cover the entire background */
+        background-repeat: no-repeat; /* Do not repeat the background image */
+    }
+
+    .custom-card {
+        height: 350px; /* Set a fixed height for the card */
+        transition: transform 0.3s ease, box-shadow 0.3s ease; /* Added box-shadow transition */
+        max-width: 300px; /* Decreased the width of the cards */
+        overflow: hidden; /* Hide any overflow */
+    }
+
+    .custom-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 0 20px #265073; /* Added box-shadow */
+    }
+
+    .rounded-img-container {
+        height: 150px; /* Set a fixed height for the image container */
+        width: 150px; /* Set a fixed width for the image container */
+        overflow: hidden; /* Hide any overflow */
+        border-radius: 50%; /* Create circular image container */
+        border: 5px solid #fff; 
+        box-shadow: 0 0 10px #fd5f00; 
+        margin: 20px auto 10px auto; 
+    }
+
+    .rounded-img {
+        width: 100%; /* Ensure the image fills the container */
+        height: 100%; /* Ensure the image fills the container */
+        object-fit: cover; /* Maintain aspect ratio */
+        border-radius: 50%; /* Create circular image */
+    }
+
+    .center-top {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%; /* Adjust height to center the image */
+    }
+
+    .card-title {
+        margin-top: 10px;
+    }
+
+    .rating {
+        margin-bottom: 10px;
+    }
+
+    .rating i {
+        color: #eeff00;
+    }
+
+    .btn {
+        margin-top: 10px;
+        margin-right: 5px; /* Added margin between buttons */
+        font-size: 16px;
+        padding: 10px 20px;
+        background-color: #008080;
+        color: #fff;
+        border: 2px solid #008080;
+        border-radius: 25px;
+        transition: all 0.3s ease;
+        display: none; /* Initially hide buttons */
+    }
+
+    .custom-card:hover .btn {
+        display: inline-block; /* Show buttons when hovering over the card */
+    }
+
+    .btn:hover {
+        background-color: #fff;
+        color: #008080;
+    }
+      .search-form {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px; 
+    }
+
+    .search-input {
+        width: 250px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        margin-right: 10px; 
+        font-size: 16px;
+    }
+
+    .search-button {
+        padding: 10px 20px;
+        background-color: #008080;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+        .search-button:hover {
+            background-color: #005353;
+        }
+   
+
+</style>
+
+<div class="container mt-4">
+    <div class="row pt-4 pb-3">
+        <div class="col-6">
+            <h2 style="color: var(--color-primary);">Agency<span style="color: #fd5f00;">List</span></h2>
+        </div>
+        <div class="col-6 text-end">
+            <form asp-action="Index" method="get">
+                 <div class="input-group">
+                    <input type="text" name="search" class="search-input form-control" placeholder="Search by Name">
+                    <button type="submit" class=" search-button  btn-primary">Search</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+@{
+    int columnCount = 0;
+}
+
+<div class="container">
+    <div class="row">
+        @foreach (var agency in Model)
+        {
+            <div class="col-md-4">
+                <div class="card custom-card mb-4">
+                    <div class="rounded-img-container">
+                        <div class="center-top">
+                            <img src="@agency.ImageUrl" class="rounded-img" alt="Agency Image">
+                        </div>
+                    </div>
+                    <div class="card-body text-center">
+                        <h5 class="card-title text-a">@agency.Username</h5>
+                        <div class="rating">
+                            @for (var i = 0; i < agency.Rating; i++)
+                            {
+                                <i class="fa fa-star" aria-hidden="true"></i>
+                            }
+                        </div>
+                        <div class="buttons">
+                            <a asp-controller="Customer" asp-action="Details" asp-route-id="@agency.MarketingAgencyId" class="btn btn-primary">View Details</a>
+                            <a asp-controller="Customer" asp-action="Register" asp-route-id="@agency.MarketingAgencyId" class="btn btn-success">Register</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @if (++columnCount % 3 == 0) 
+            {
+                @:</div> <!-- Close the row if three cards are displayed -->
+                @if (columnCount < Model.Count()) 
+                {
+                    @:<div class="row"> <!-- Start a new row if there are more agencies -->
+                }
+            }
+        }
+    </div>
+</div>

@@ -1,0 +1,50 @@
+﻿@{
+    if (ViewData.TryGetValue("ParentLayout", out var parentLayout) && parentLayout !=  null)
+    {
+        Layout = parentLayout.ToString();
+    }
+    else
+    {
+        Layout = "/Views/Shared/_Layout.cshtml";
+    }
+}
+<style>
+
+	.btn {
+		margin-top: 10px;
+		margin-right: 5px; /* Added margin between buttons */
+		font-size: 16px;
+		padding: 10px 20px;
+		background-color: #fd5f00;
+		color: #fff;
+		border: 2px solid #fd5f00;
+		border-radius: 25px;
+		transition: all 0.3s ease;
+	}
+
+
+		.btn:hover {
+			background-color: #fff;
+			color: #fd5f00;
+			border: 2px solid #fd5f00;
+		}
+
+</style>
+<h1 style="color: var(--color-primary);">Manage your account</h1>
+
+<div>
+    <h2 style="color: var(--color-primary);">Change your account settings</h2>
+    <hr />
+    <div class="row">
+        <div class="col-md-3">
+            <partial name="_ManageNav" />
+        </div>
+        <div class="col-md-9">
+            @RenderBody()
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @RenderSection("Scripts", required: false)
+}

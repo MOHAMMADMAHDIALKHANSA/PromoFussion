@@ -1,0 +1,93 @@
+﻿@model IEnumerable<MarketingHub.Models.Administrator>
+
+
+
+
+<link href="~/assets/css/main.css" rel="stylesheet" />
+<script src="~/assets/js/main.js"></script>
+<section id="about" class="about">
+    <div class="container" data-aos="fade-up">
+
+        <div class="section-header">
+            <h2 style="color: var(--color-primary);"><span style="color: #fd5f00;">About</span> Us</h2>
+            <p>At PromoFusion, we are more than just a team; we're a family united by a common vision.</p>
+        </div>
+
+        <div class="row gy-4">
+            <div class="col-lg-6">
+                <h3>Empowering Excellence, Inspiring Innovation</h3>
+                <img src="~/assets/img/teamwork.webp" class="img-fluid rounded-4 mb-4" alt="">
+                <p>With unwavering dedication, we strive to redefine excellence in every project we undertake.</p>
+                <p>Our commitment to innovation drives us to push boundaries and exceed expectations, every step of the way.</p>
+            </div>
+            <div class="col-lg-6">
+                <div class="content ps-0 ps-lg-5">
+                    <p>Backed by years of expertise and a relentless pursuit of perfection, we deliver solutions that inspire and endure.</p>
+                    <ul>
+                        <li><i class="bi bi-check-circle-fill"></i>Empowering individuals to unleash their full potential and drive success</li>
+                        <li><i class="bi bi-check-circle-fill"></i> Collaborating seamlessly to deliver unparalleled results</li>
+                        <li><i class="bi bi-check-circle-fill"></i>Embracing challenges as opportunities for growth and innovation </li>
+                    </ul>
+                    <p>Discover the driving force behind our unparalleled success and the passion that fuels every project we undertake.</p>
+
+                    <div class="position-relative mt-4">
+                        <img src="~/assets/img/creativity.jpg" class="img-fluid rounded-4" alt="">
+                        <a href="https://youtu.be/cP74xRrlSW4?si=pHfBxTCH9D2pnxdS" class="glightbox play-btn"></a>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+    </div>
+</section>
+<br />
+<section id="team" class="team">
+    <div class="container" data-aos="fade-up">
+        <div class="section-header">
+            <h2 style="color: var(--color-primary);">O<span style="color: #fd5f00;">U</span>R<span style="color: #fd5f00;">T</span>E<span style="color: #fd5f00;">A</span>M</h2>
+            <p>Experience the excellence of our remarkable team.</p>
+        </div>
+        <div class="row gy-4">
+            @foreach (var admin in Model)
+            {
+                <div class="col-xl-3 col-md-6 d-flex member-container" data-aos="fade-up" data-aos-delay="100" data-admin-id="@admin.AdministratorId">
+                    <div class="member">
+                        <img src="@admin.ImgUrl" class="img-fluid" alt="">
+                        <h4>@admin.FirstName @admin.LastName</h4>
+                        <span>@admin.Role</span>
+                        <span>@admin.Email</span>
+                        <div class="social">
+                            <a href="https://twitter.com/"><i class="bi bi-twitter"></i></a>
+                            <a href="https://www.facebook.com/"><i class="bi bi-facebook"></i></a>
+                            <a href="https://www.instagram.com/"><i class="bi bi-instagram"></i></a>
+                            <a href="https://www.linkedin.com/"><i class="bi bi-linkedin"></i></a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+
+<script>
+    // Get all member containers
+    const memberContainers = document.querySelectorAll('.member-container');
+
+    // Loop through each member container and add click event listener
+    memberContainers.forEach(container => {
+        container.addEventListener('click', function () {
+            // Get the administrator ID from data attribute
+            const adminId = this.getAttribute('data-admin-id');
+            // Redirect to ViewDetails action with the admin ID
+            window.location.href = `/Home/ViewDetails/${adminId}`;
+        });
+    });
+</script>
+
+
+
+
+

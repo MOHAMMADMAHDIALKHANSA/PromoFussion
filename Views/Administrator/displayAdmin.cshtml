@@ -1,0 +1,107 @@
+﻿@model IEnumerable<MarketingHub.Models.Administrator>
+
+@{
+    ViewData["Title"] = "Administrator List";
+}
+<link href="~/assets/css/main.css" rel="stylesheet" />
+<script src="~/assets/js/main.js"></script>
+
+<style>
+    body {
+        background-image: url('https://convertingcolors.com/radial-008374.svg'); /* Set the background image of the page */
+        background-size: cover; /* Cover the entire background */
+        background-repeat: no-repeat; /* Do not repeat the background image */
+    }
+    /* Style for the search forms */
+    .search-form {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px; /* Add some space between search forms */
+    }
+
+    /* Style for the search input */
+    .search-input {
+        width: 250px; /* Adjust width as needed */
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        margin-right: 10px; /* Add some space between input and button */
+        font-size: 16px;
+    }
+
+    /* Style for the search button */
+    .search-button {
+        padding: 10px 20px;
+        background-color: #008080;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+        /* Style for the search button on hover */
+        .search-button:hover {
+            background-color: #005353;
+        }
+</style>
+
+<div class="container mt-4">
+    <div class="row pt-4 pb-3">
+        <div class="col-6">
+            <h2 style="color: #fd5f00;">
+                Admin<span style="color: var(--color-primary);">istrators</span> List
+            </h2>
+        </div>
+        <div class="col-6 text-end">
+            <!-- Search form -->
+            <form method="get" action="@Url.Action("SearchAdmin", "Administrator")" class="search-form">
+                <div class="input-group">
+                    <input type="text" name="search" class="search-input form-control" placeholder="Search Name">
+                    <button type="submit" class="search-button">Search</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+<section id="team" class="team">
+    <div class="container" data-aos="fade-up">
+        <div class="row gy-4">
+            @foreach (var admin in Model)
+            {
+                <div class="col-xl-3 col-md-6 d-flex member-container" data-aos="fade-up" data-aos-delay="100" data-admin-id="@admin.AdministratorId">
+                    <div class="member">
+                        <img src="@admin.ImgUrl" class="img-fluid" alt="">
+                        <h4>@admin.FirstName @admin.LastName</h4>
+                        <span>@admin.Role</span>
+                        <span>@admin.Email</span>
+                        <div class="social">
+                            <a href="https://twitter.com/"><i class="bi bi-twitter"></i></a>
+                            <a href="https://www.facebook.com/"><i class="bi bi-facebook"></i></a>
+                            <a href="https://www.instagram.com/"><i class="bi bi-instagram"></i></a>
+                            <a href="https://www.linkedin.com/"><i class="bi bi-linkedin"></i></a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<script>
+    // Get all member containers
+    const memberContainers = document.querySelectorAll('.member-container');
+
+    // Loop through each member container and add click event listener
+    memberContainers.forEach(container => {
+        container.addEventListener('click', function () {
+            // Get the administrator ID from data attribute
+            const adminId = this.getAttribute('data-admin-id');
+            // Redirect to ViewDetails action with the admin ID
+            window.location.href = `/Administrator/ViewDetails/${adminId}`;
+        });
+    });
+</script>

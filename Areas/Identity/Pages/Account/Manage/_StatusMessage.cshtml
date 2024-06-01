@@ -1,0 +1,32 @@
+﻿@model string
+
+<style>
+
+	.btn {
+		margin-top: 10px;
+		margin-right: 5px; /* Added margin between buttons */
+		font-size: 16px;
+		padding: 10px 20px;
+		background-color: #fd5f00;
+		color: #fff;
+		border: 2px solid #fd5f00;
+		border-radius: 25px;
+		transition: all 0.3s ease;
+	}
+
+
+		.btn:hover {
+			background-color: #fff;
+			color: #fd5f00;
+			border: 2px solid #fd5f00;
+		}
+
+</style>
+@if (!String.IsNullOrEmpty(Model))
+{
+    var statusMessageClass = Model.StartsWith("Error") ? "danger" : "success";
+    <div class="alert alert-@statusMessageClass alert-dismissible" role="alert">
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        @Model
+    </div>
+}

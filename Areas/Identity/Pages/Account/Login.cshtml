@@ -1,0 +1,227 @@
+﻿@page
+@model LoginModel
+
+@{
+    ViewData["Title"] = "Log in";
+}
+
+<style>
+    /* Styles specific to the login page */
+
+    body {
+        background-image: url('https://convertingcolors.com/radial-008374.svg'); /* Set the background image of the page */
+        background-size: cover; /* Cover the entire background */
+        background-repeat: no-repeat; /* Do not repeat the background image */
+    }
+
+    .btn {
+        margin-top: 10px;
+        margin-right: 5px; /* Added margin between buttons */
+        font-size: 16px;
+        padding: 10px 20px;
+        background-color: #008374;
+        color: #fff;
+        border: 2px solid #008374;
+        border-radius: 25px;
+        transition: all 0.3s ease;
+    }
+
+        .btn:hover {
+            background-color: #007161; /* darker shade */
+            border-color: #007161; /* darker shade */
+            box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.3); /* add shadow on hover */
+        }
+
+    .login-container {
+        max-width: 500px; /* increased width */
+        padding: 20px; /* added padding */
+        margin: 170px auto;
+        border: 2px solid #008374; /* added border */
+        border-radius: 10px; /* rounded border */
+        background-color: #ffffff; /* background color */
+        transition: box-shadow 0.3s ease; /* transition for box-shadow */
+    }
+
+        .login-container:hover {
+            box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.5); /* add shadow on hover */
+        }
+
+    .login-wrapper {
+        width: 100%;
+        border-radius: 5px;
+        box-shadow: 0px 4px 10px 1px rgba(0, 0, 0, 0.1);
+    }
+
+        .login-wrapper .title {
+            height: 90px;
+            border-radius: 5px 5px 0 0;
+            color: #fff;
+            font-size: 30px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #008374;
+        }
+
+        .login-wrapper form {
+            padding: 30px 25px 25px 25px;
+        }
+
+            .login-wrapper form .row {
+                height: 45px;
+                margin-bottom: 15px;
+                position: relative;
+            }
+
+                .login-wrapper form .row input {
+                    height: 100%;
+                    width: 100%;
+                    outline: none;
+                    padding-left: 60px;
+                    border-radius: 5px;
+                    border: 1px solid lightgrey;
+                    font-size: 16px;
+                    transition: all 0.3s ease;
+                }
+
+                    .login-wrapper form .row input:focus {
+                        border-color: #008374;
+                        box-shadow: inset 0px 0px 2px 2px rgba(26, 188, 156, 0.25);
+                    }
+
+                    .login-wrapper form .row input::placeholder {
+                        color: #999;
+                    }
+
+                .login-wrapper form .row i {
+                    position: absolute;
+                    width: 47px;
+                    height: 100%;
+                    color: #fff;
+                    font-size: 18px;
+                    background: #008374;
+                    border: 1px solid #008374;
+                    border-radius: 5px 0 0 5px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }
+
+            .login-wrapper form .pass {
+                margin: -8px 0 20px 0;
+            }
+
+                .login-wrapper form .pass a {
+                    color: #008374;
+                    font-size: 17px;
+                    text-decoration: none;
+                }
+
+                    .login-wrapper form .pass a:hover {
+                        text-decoration: underline;
+                    }
+
+            .login-wrapper form .button input {
+                color: #fff;
+                font-size: 20px;
+                font-weight: 500;
+                padding-left: 0px;
+                background: #008374;
+                border: 1px solid #008374;
+                cursor: pointer;
+            }
+
+                .login-wrapper form .button input:hover {
+                    background: #008374;
+                }
+
+            .login-wrapper form .signup-link {
+                text-align: center;
+                margin-top: 20px;
+                font-size: 17px;
+            }
+
+                .login-wrapper form .signup-link a {
+                    color: #008374;
+                    text-decoration: none;
+                }
+
+                    .login-wrapper form .signup-link a:hover {
+                        text-decoration: underline;
+                    }
+</style>
+
+
+<div class="login-container">
+    <div class="login-wrapper">
+        <div class="title"><span>Log In</span></div>
+        <form id="account" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+            <div class="form-floating mb-3">
+                <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
+                <label asp-for="Input.Email" class="form-label">Email</label>
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-3">
+                <input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="password" />
+                <label asp-for="Input.Password" class="form-label">Password</label>
+                <span asp-validation-for="Input.Password" class="text-danger"></span>
+            </div>
+            <div class="checkbox mb-3">
+                <label asp-for="Input.RememberMe" class="form-label">
+                    <input class="form-check-input" asp-for="Input.RememberMe" />
+                    @Html.DisplayNameFor(m => m.Input.RememberMe)
+                </label>
+            </div>
+            <div class="col-md-12">
+                <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-primary">Log in</button>
+            </div>
+        </form>
+        <div class="d-flex justify-content-between pt-3">
+            <p>
+                <a style="color: #008374;" id="forgot-password" asp-page="./ForgotPassword"><strong>Forgot your password?</strong></a>
+            </p>
+            <p>
+                <a style="color: #008374;" asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl"><strong>Register as a new user</strong></a>
+            </p>
+            <p>
+                <a style="color: #008374;" id="resend-confirmation" asp-page="./ResendEmailConfirmation"><strong>Resend email confirmation</strong></a>
+            </p>
+        </div>
+        <section>
+            <p class="divider-text d-flex" pt-3 style="color: #fd5f00;">or</p>
+            <h3 style="color: var(--color-primary); margin-top: 10px;">Use another service to log in.</h3>
+            @if ((Model.ExternalLogins?.Count ?? 0) == 0)
+            {
+                <div>
+                    <p style="color: var(--color-primary);">
+                        There are no external authentication services configured. See this <strong><a style="color: #008374;" href="https://go.microsoft.com/fwlink/?LinkID=532715">
+                            article
+                            about setting up this ASP.NET application to support logging in via external services
+                        </a></strong>.
+                    </p>
+                </div>
+            }
+            else
+            {
+                <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
+                    <div>
+                        <p>
+                            @foreach (var provider in Model.ExternalLogins!)
+                            {
+                                <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
+                            }
+                        </p>
+                    </div>
+                </form>
+            }
+        </section>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

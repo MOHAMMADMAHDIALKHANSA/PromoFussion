@@ -1,0 +1,46 @@
+﻿@model MarketingHub.Models.Administrator
+<link href="~/css/login.css" rel="stylesheet" />
+
+
+<html>
+<aside class="profile-card">
+    <header>
+        <div class="profile-info">
+            <img src="@Model.ImgUrl" class="img-fluid" alt="">
+            <div class="name-role">
+                <h4>@Model.FirstName @Model.LastName</h4>
+                <p class="role">@Model.Role</p>
+            </div>
+        </div>
+        <div class="profile-details">
+            <p class="email">@Model.Email</p>
+        </div>
+    </header>
+
+    <!-- some social links to show off -->
+    <ul class="profile-social-links">
+        <li>
+            <a target="_blank" href="https://twitter.com/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        <li>
+            <a target="_blank" href="https://www.facebook.com/">
+                <i class="fa fa-facebook"></i>
+            </a>
+        </li>
+        <li>
+            <a target="_blank" href="https://www.instagram.com/">
+                <i class="fa fa-instagram"></i>
+            </a>
+        </li>
+        <li>
+            <a target="_blank" href="https://www.linkedin.com/">
+                <i class="fa fa-linkedin"></i>
+            </a>
+        </li>
+    </ul>
+</aside>
+</html>
+
+

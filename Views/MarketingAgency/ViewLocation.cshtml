@@ -1,0 +1,47 @@
+﻿<div class="container">
+    <h1>@ViewData["Title"]</h1>
+    <style>
+        body {
+            background-image: url('https://convertingcolors.com/radial-008374.svg');
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+        .btn {
+            margin-top: 10px;
+            margin-right: 5px;
+            font-size: 16px;
+            padding: 10px 20px;
+            background-color: #008080;
+            color: #fff;
+            border: 2px solid #008080;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+
+
+            .btn:hover {
+                background-color: #fff;
+                color: #008080;
+            }
+    </style>
+    <div class="row">
+        <div class="col-md-6">
+            <img src="@Model.ImageUrl" class="img-fluid rounded" alt="Location Image">
+        </div>
+        <div class="col-md-6">
+            <h2 style="color:#fd5f00">@Model.BuildingName</h2>
+            <p style="color: var(--color-primary);"><strong>City:</strong> @Model.City</p>
+            <p style="color: var(--color-primary);"><strong>Postal Code:</strong> @Model.PostalCode</p>
+            <p style="color: var(--color-primary);"><strong>Region:</strong> @Model.Region</p>
+            <a href="@Model.UrlRoute" target="_blank">
+                <img src="https://img.dobreprogramy.pl/Images/News/94527/ec4c9165-4d82-4e09-8856-8b1f214d1fb0.jpg" class="img-fluid rounded" alt="Additional Image">
+            </a>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <a asp-controller="MarketingAgency" asp-action="Index" class="btn btn-primary">Back to list </a>
+        </div>
+    </div>
+</div>
