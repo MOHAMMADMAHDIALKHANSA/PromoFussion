@@ -4,6 +4,7 @@ using MarketingHub.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MarketingHub.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240607231646_initial")]
+    partial class initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -583,9 +586,9 @@ namespace MarketingHub.Migrations
             modelBuilder.Entity("MarketingHub.Models.Feedback", b =>
                 {
                     b.HasOne("MarketingHub.Models.Customer", "Customer")
-                        .WithMany("Feedbacks")
+                        .WithMany()
                         .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("MarketingHub.Models.MarketingAgency", "MarketingAgency")
@@ -692,8 +695,6 @@ namespace MarketingHub.Migrations
             modelBuilder.Entity("MarketingHub.Models.Customer", b =>
                 {
                     b.Navigation("Appointments");
-
-                    b.Navigation("Feedbacks");
 
                     b.Navigation("Reviews");
                 });

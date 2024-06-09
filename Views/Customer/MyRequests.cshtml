@@ -1,0 +1,37 @@
+﻿@model IEnumerable<MarketingHub.Models.Appointment>
+
+@{
+    ViewData["Title"] = "My Appointment Requests";
+}
+
+<h2>My Appointment Requests</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Marketing Agency</th>
+            <th>Requested Date</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var appointment in Model)
+        {
+            <tr>
+                <td>@appointment.MarketingAgency.Username</td>
+                <td>@appointment.RequestedDate.ToString("g")</td>
+                <td>@appointment.Status</td>
+                <td>
+                    @if (appointment.Status == "Pending")
+                    {
+                        <form asp-controller="Customer" asp-action="DeclineRequest" method="post" style="display:inline;">
+                            <input type="hidden" name="appointmentId" value="@appointment.AppointmentId" />
+                            <button type="submit" class="btn btn-danger">Decline</button>
+                        </form>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

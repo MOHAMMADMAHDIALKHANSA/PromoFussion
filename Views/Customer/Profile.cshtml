@@ -1,0 +1,13 @@
+﻿@model MarketingHub.Models.Customer
+
+<h1>Customer Profile</h1>
+
+<div>
+    <p><strong>Name:</strong> @Model.FirstName @Model.LastName</p>
+    <p><strong>Email:</strong> @Model.Email</p>
+    <p><strong>Phone:</strong> @Model.PhoneNumber</p>
+
+    <!-- Add more details as needed -->
+</div>
+
+<a asp-action="EditProfile" class="btn btn-primary">Edit Profile</a>

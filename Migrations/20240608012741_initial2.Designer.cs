@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MarketingHub.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240524145829_initial")]
-    partial class initial
+    [Migration("20240608012741_initial2")]
+    partial class initial2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -53,9 +53,45 @@ namespace MarketingHub.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("AdministratorId");
 
+                    b.HasIndex("UserId");
+
                     b.ToTable("Administrators");
+                });
+
+            modelBuilder.Entity("MarketingHub.Models.Appointment", b =>
+                {
+                    b.Property<int>("AppointmentId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AppointmentId"));
+
+                    b.Property<string>("CustomerId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("MarketingAgencyId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("RequestedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("AppointmentId");
+
+                    b.HasIndex("CustomerId");
+
+                    b.HasIndex("MarketingAgencyId");
+
+                    b.ToTable("Appointments");
                 });
 
             modelBuilder.Entity("MarketingHub.Models.Customer", b =>
@@ -83,11 +119,49 @@ namespace MarketingHub.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("CustomerId");
 
                     b.HasIndex("MarketingAgencyId");
 
+                    b.HasIndex("UserId");
+
                     b.ToTable("Customers");
+                });
+
+            modelBuilder.Entity("MarketingHub.Models.Feedback", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Comment")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CustomerId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("MarketingAgencyId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Rating")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CustomerId");
+
+                    b.HasIndex("MarketingAgencyId");
+
+                    b.ToTable("Feedbacks");
                 });
 
             modelBuilder.Entity("MarketingHub.Models.Location", b =>
@@ -162,8 +236,8 @@ namespace MarketingHub.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Rating")
-                        .HasColumnType("int");
+                    b.Property<double>("Rating")
+                        .HasColumnType("float");
 
                     b.Property<string>("Salary")
                         .IsRequired()
@@ -185,37 +259,9 @@ namespace MarketingHub.Migrations
                     b.HasIndex("LocationId")
                         .IsUnique();
 
-                    b.HasIndex("UserId")
-                        .IsUnique();
+                    b.HasIndex("UserId");
 
                     b.ToTable("MarketingAgency");
-                });
-
-            modelBuilder.Entity("MarketingHub.Models.MarketingAgencyRegistration", b =>
-                {
-                    b.Property<int>("MarketingAgencyRegistrationId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MarketingAgencyRegistrationId"));
-
-                    b.Property<string>("CustomerId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("MarketingAgencyId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("RegistrationDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("MarketingAgencyRegistrationId");
-
-                    b.HasIndex("CustomerId");
-
-                    b.HasIndex("MarketingAgencyId");
-
-                    b.ToTable("MarketingAgencyRegistrations");
                 });
 
             modelBuilder.Entity("MarketingHub.Models.Post", b =>
@@ -496,12 +542,62 @@ namespace MarketingHub.Migrations
                     b.HasDiscriminator().HasValue("ApplicationUser");
                 });
 
+            modelBuilder.Entity("MarketingHub.Models.Administrator", b =>
+                {
+                    b.HasOne("MarketingHub.Models.ApplicationUser", "applicationUser")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("applicationUser");
+                });
+
+            modelBuilder.Entity("MarketingHub.Models.Appointment", b =>
+                {
+                    b.HasOne("MarketingHub.Models.Customer", "Customer")
+                        .WithMany("Appointments")
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MarketingHub.Models.MarketingAgency", "MarketingAgency")
+                        .WithMany("Appointments")
+                        .HasForeignKey("MarketingAgencyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Customer");
+
+                    b.Navigation("MarketingAgency");
+                });
+
             modelBuilder.Entity("MarketingHub.Models.Customer", b =>
                 {
-                    b.HasOne("MarketingHub.Models.MarketingAgency", "MarketingAgency")
+                    b.HasOne("MarketingHub.Models.MarketingAgency", null)
                         .WithMany("Customers")
+                        .HasForeignKey("MarketingAgencyId");
+
+                    b.HasOne("MarketingHub.Models.ApplicationUser", "applicationUser")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("applicationUser");
+                });
+
+            modelBuilder.Entity("MarketingHub.Models.Feedback", b =>
+                {
+                    b.HasOne("MarketingHub.Models.Customer", "Customer")
+                        .WithMany("Feedbacks")
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("MarketingHub.Models.MarketingAgency", "MarketingAgency")
+                        .WithMany("Feedbacks")
                         .HasForeignKey("MarketingAgencyId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Customer");
 
                     b.Navigation("MarketingAgency");
                 });
@@ -515,33 +611,14 @@ namespace MarketingHub.Migrations
                         .IsRequired();
 
                     b.HasOne("MarketingHub.Models.ApplicationUser", "applicationUser")
-                        .WithOne()
-                        .HasForeignKey("MarketingHub.Models.MarketingAgency", "UserId")
+                        .WithMany()
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Location");
 
                     b.Navigation("applicationUser");
-                });
-
-            modelBuilder.Entity("MarketingHub.Models.MarketingAgencyRegistration", b =>
-                {
-                    b.HasOne("MarketingHub.Models.Customer", "Customer")
-                        .WithMany("MarketingAgencyRegistrations")
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("MarketingHub.Models.MarketingAgency", "MarketingAgency")
-                        .WithMany("MarketingAgencyRegistrations")
-                        .HasForeignKey("MarketingAgencyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Customer");
-
-                    b.Navigation("MarketingAgency");
                 });
 
             modelBuilder.Entity("MarketingHub.Models.Post", b =>
@@ -617,16 +694,20 @@ namespace MarketingHub.Migrations
 
             modelBuilder.Entity("MarketingHub.Models.Customer", b =>
                 {
-                    b.Navigation("MarketingAgencyRegistrations");
+                    b.Navigation("Appointments");
+
+                    b.Navigation("Feedbacks");
 
                     b.Navigation("Reviews");
                 });
 
             modelBuilder.Entity("MarketingHub.Models.MarketingAgency", b =>
                 {
+                    b.Navigation("Appointments");
+
                     b.Navigation("Customers");
 
-                    b.Navigation("MarketingAgencyRegistrations");
+                    b.Navigation("Feedbacks");
 
                     b.Navigation("Post");
                 });

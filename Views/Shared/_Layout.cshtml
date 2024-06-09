@@ -83,12 +83,24 @@
                         <li >
                             <a class="nav-link text-light" asp-area="" asp-controller="Customer" asp-action="SubmitReview">Submit a Review for the website</a>
                         </li>
+                         <li >
+                            <a class="nav-link text-light" asp-area="" asp-controller="Customer" asp-action="MyRequests">My Requests</a>
+                        </li>
+                        <li>
+                            <a class="nav-link text-light" asp-area="" asp-controller="Customer" asp-action="Profile">My Profile</a>
+                        </li>
                     }
                     @if (User.IsInRole(MarketingHub.Utility.SD.Role_Agency)){
 
                     <li >
                             <a class="nav-link text-light" asp-area="" asp-controller="MarketingAgency" asp-action="Index">MarketingAgency</a>
                     </li>
+                        <li>
+                            <a class="nav-link text-light" asp-area="" asp-controller="MarketingAgency" asp-action="Requests">Pending Requests</a>
+                        </li>
+                        <li>
+                            <a class="nav-link text-light" asp-area="" asp-controller="MarketingAgency" asp-action="Profile">My Profile</a>
+                        </li>
                     }
                     @if (User.IsInRole(MarketingHub.Utility.SD.Role_Admin))
                     {

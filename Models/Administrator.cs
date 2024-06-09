@@ -11,7 +11,7 @@ namespace MarketingHub.Models
         {
             [Key]
             [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int AdministratorId { get; set; }
+            public int AdministratorId { get; set; }
 
             [Required(ErrorMessage = "First name is required")]
             public string FirstName { get; set; } = string.Empty;
@@ -25,8 +25,10 @@ namespace MarketingHub.Models
             [Required(ErrorMessage = "Email is required")]
             [EmailAddress(ErrorMessage = "Invalid email address")]
             public string Email { get; set; } = string.Empty;
+            [ForeignKey("UserId")]
+            public ApplicationUser applicationUser { get; set; }
 
-            [Url(ErrorMessage = "Invalid image URL")]
+        [   Url(ErrorMessage = "Invalid image URL")]
             public string ImgUrl { get; set; } = string.Empty;
         }
 }

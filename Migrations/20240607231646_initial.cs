@@ -12,23 +12,6 @@ namespace MarketingHub.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Administrators",
-                columns: table => new
-                {
-                    AdministratorId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Role = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ImgUrl = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Administrators", x => x.AdministratorId);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
                 {
@@ -106,6 +89,29 @@ namespace MarketingHub.Migrations
                         principalTable: "AspNetRoles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Administrators",
+                columns: table => new
+                {
+                    AdministratorId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Role = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    ImgUrl = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Administrators", x => x.AdministratorId);
+                    table.ForeignKey(
+                        name: "FK_Administrators_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -204,7 +210,7 @@ namespace MarketingHub.Migrations
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Rating = table.Column<int>(type: "int", nullable: false),
+                    Rating = table.Column<double>(type: "float", nullable: false),
                     ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Instagram = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Facebook = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -239,17 +245,22 @@ namespace MarketingHub.Migrations
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     MarketingAgencyId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Customers", x => x.CustomerId);
                     table.ForeignKey(
+                        name: "FK_Customers_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                    table.ForeignKey(
                         name: "FK_Customers_MarketingAgency_MarketingAgencyId",
                         column: x => x.MarketingAgencyId,
                         principalTable: "MarketingAgency",
-                        principalColumn: "MarketingAgencyId",
-                        onDelete: ReferentialAction.SetNull);
+                        principalColumn: "MarketingAgencyId");
                 });
 
             migrationBuilder.CreateTable(
@@ -275,30 +286,60 @@ namespace MarketingHub.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "MarketingAgencyRegistrations",
+                name: "Appointments",
                 columns: table => new
                 {
-                    MarketingAgencyRegistrationId = table.Column<int>(type: "int", nullable: false)
+                    AppointmentId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    RegistrationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CustomerId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    MarketingAgencyId = table.Column<int>(type: "int", nullable: false)
+                    MarketingAgencyId = table.Column<int>(type: "int", nullable: false),
+                    RequestedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_MarketingAgencyRegistrations", x => x.MarketingAgencyRegistrationId);
+                    table.PrimaryKey("PK_Appointments", x => x.AppointmentId);
                     table.ForeignKey(
-                        name: "FK_MarketingAgencyRegistrations_Customers_CustomerId",
+                        name: "FK_Appointments_Customers_CustomerId",
                         column: x => x.CustomerId,
                         principalTable: "Customers",
                         principalColumn: "CustomerId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_MarketingAgencyRegistrations_MarketingAgency_MarketingAgencyId",
+                        name: "FK_Appointments_MarketingAgency_MarketingAgencyId",
                         column: x => x.MarketingAgencyId,
                         principalTable: "MarketingAgency",
                         principalColumn: "MarketingAgencyId",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Feedbacks",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CustomerId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    MarketingAgencyId = table.Column<int>(type: "int", nullable: false),
+                    Rating = table.Column<int>(type: "int", nullable: false),
+                    Comment = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Feedbacks", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Feedbacks_Customers_CustomerId",
+                        column: x => x.CustomerId,
+                        principalTable: "Customers",
+                        principalColumn: "CustomerId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Feedbacks_MarketingAgency_MarketingAgencyId",
+                        column: x => x.MarketingAgencyId,
+                        principalTable: "MarketingAgency",
+                        principalColumn: "MarketingAgencyId",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -322,6 +363,21 @@ namespace MarketingHub.Migrations
                         principalColumn: "CustomerId",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Administrators_UserId",
+                table: "Administrators",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Appointments_CustomerId",
+                table: "Appointments",
+                column: "CustomerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Appointments_MarketingAgencyId",
+                table: "Appointments",
+                column: "MarketingAgencyId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -368,6 +424,21 @@ namespace MarketingHub.Migrations
                 column: "MarketingAgencyId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Customers_UserId",
+                table: "Customers",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Feedbacks_CustomerId",
+                table: "Feedbacks",
+                column: "CustomerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Feedbacks_MarketingAgencyId",
+                table: "Feedbacks",
+                column: "MarketingAgencyId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_MarketingAgency_LocationId",
                 table: "MarketingAgency",
                 column: "LocationId",
@@ -376,18 +447,7 @@ namespace MarketingHub.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_MarketingAgency_UserId",
                 table: "MarketingAgency",
-                column: "UserId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_MarketingAgencyRegistrations_CustomerId",
-                table: "MarketingAgencyRegistrations",
-                column: "CustomerId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_MarketingAgencyRegistrations_MarketingAgencyId",
-                table: "MarketingAgencyRegistrations",
-                column: "MarketingAgencyId");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Posts_MarketingAgencyId",
@@ -407,6 +467,9 @@ namespace MarketingHub.Migrations
                 name: "Administrators");
 
             migrationBuilder.DropTable(
+                name: "Appointments");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
             migrationBuilder.DropTable(
@@ -422,7 +485,7 @@ namespace MarketingHub.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "MarketingAgencyRegistrations");
+                name: "Feedbacks");
 
             migrationBuilder.DropTable(
                 name: "Posts");

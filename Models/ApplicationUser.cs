@@ -12,5 +12,10 @@ namespace MarketingHub.Models
     {
         [Required]
         public string Name {  get; set; }
+
+        public static explicit operator ApplicationUser(Task<IdentityUser?> v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

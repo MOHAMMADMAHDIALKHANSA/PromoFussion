@@ -4,7 +4,6 @@
     ViewData["Title"] = "Marketing Agencies";
 }
 <style>
-
     body {
         background-image: url('https://convertingcolors.com/radial-008374.svg'); /* Set the background image of the page */
         background-size: cover; /* Cover the entire background */
@@ -80,7 +79,8 @@
         background-color: #fff;
         color: #008080;
     }
-      .search-form {
+
+    .search-form {
         display: flex;
         align-items: center;
         margin-bottom: 20px; 
@@ -105,11 +105,9 @@
         cursor: pointer;
     }
 
-        .search-button:hover {
-            background-color: #005353;
-        }
-   
-
+    .search-button:hover {
+        background-color: #005353;
+    }
 </style>
 
 <div class="container mt-4">
@@ -119,15 +117,14 @@
         </div>
         <div class="col-6 text-end">
             <form asp-action="Index" method="get">
-                 <div class="input-group">
+                <div class="input-group">
                     <input type="text" name="search" class="search-input form-control" placeholder="Search by Name">
-                    <button type="submit" class=" search-button  btn-primary">Search</button>
+                    <button type="submit" class="search-button btn-primary">Search</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
-
 
 @{
     int columnCount = 0;
@@ -154,16 +151,41 @@
                         </div>
                         <div class="buttons">
                             <a asp-controller="Customer" asp-action="Details" asp-route-id="@agency.MarketingAgencyId" class="btn btn-primary">View Details</a>
-                            <a asp-controller="Customer" asp-action="Register" asp-route-id="@agency.MarketingAgencyId" class="btn btn-success">Register</a>
+                            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#bookAppointmentModal-@agency.MarketingAgencyId">Book an Appointment</button>
                         </div>
                     </div>
                 </div>
             </div>
 
-            @if (++columnCount % 3 == 0) 
+            <!-- Modal -->
+            <div class="modal fade" id="bookAppointmentModal-@agency.MarketingAgencyId" tabindex="-1" aria-labelledby="bookAppointmentModalLabel-@agency.MarketingAgencyId" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="bookAppointmentModalLabel-@agency.MarketingAgencyId">Book an Appointment with @agency.Username</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form asp-action="Book" method="post">
+                                <div class="mb-3">
+                                    <label for="preferredDate-@agency.MarketingAgencyId" class="form-label">Preferred Date</label>
+                                    <input type="date" class="form-control" id="preferredDate-@agency.MarketingAgencyId" name="PreferredDate" required>
+                                </div>
+                                <input type="hidden" name="MarketingAgencyId" value="@agency.MarketingAgencyId">
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary">Book Appointment</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @if (++columnCount % 3 == 0)
             {
                 @:</div> <!-- Close the row if three cards are displayed -->
-                @if (columnCount < Model.Count()) 
+                @if (columnCount < Model.Count())
                 {
                     @:<div class="row"> <!-- Start a new row if there are more agencies -->
                 }
@@ -171,3 +193,8 @@
         }
     </div>
 </div>
+
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js" integrity="sha384-oBqDVmMz4fnFO9gybU5loB8bRZARlpiq31K5go+/V1pGFlJRm8rRXbggtv+fOonA" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js" integrity="sha384-cuDk7RXAhKs8gVfFevm64JtA9f3lWx7Eq03U8i9E8Y4nphe+1xgIqGtt/45b8g2T" crossorigin="anonymous"></script>
+}
